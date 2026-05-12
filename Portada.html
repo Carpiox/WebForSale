@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sergio Carpio — Web Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#09090B;--bg2:#111113;--bg3:#18181B;--bg4:#27272A;
+  --border:#2A2A2E;--border2:#3F3F46;
+  --txt:#FAFAFA;--txt2:#A1A1AA;--txt3:#71717A;
+  --blue:#3B82F6;--blue2:#1D4ED8;--blue-bg:rgba(59,130,246,.12);
+  --green:#22C55E;--green-bg:rgba(34,197,94,.1);
+  --amber:#F59E0B;--amber-bg:rgba(245,158,11,.1);
+  --red:#EF4444;
+  --serif:'DM Serif Display',serif;
+  --sans:'Inter',sans-serif;
+  --r8:8px;--r12:12px;--r16:16px;--r24:24px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:var(--sans);overflow-x:hidden;line-height:1.6}
+a{text-decoration:none;color:inherit}
+
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity:.4;
+}
+
+.lang-bar{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;justify-content:flex-end;padding:.4rem 5vw;
+  background:rgba(9,9,11,.8);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.lang-btn{
+  display:flex;gap:.2rem;background:var(--bg3);border:1px solid var(--border);
+  border-radius:var(--r8);overflow:hidden;
+}
+.lang-opt{
+  padding:.3rem .7rem;font-size:.72rem;font-weight:600;letter-spacing:.06em;
+  cursor:pointer;transition:all .2s;color:var(--txt3);
+}
+.lang-opt.active{background:var(--blue);color:var(--txt);}
+.lang-opt:hover:not(.active){color:var(--txt2)}
+
+nav{
+  position:fixed;top:37px;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 5vw;height:60px;
+  background:rgba(9,9,11,.85);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{
+  font-family:var(--serif);font-size:1.2rem;letter-spacing:-.01em;
+  background:linear-gradient(135deg,#fff 30%,#3B82F6);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.nav-links{display:flex;gap:1.8rem;list-style:none}
+.nav-links a{font-size:.82rem;font-weight:500;color:var(--txt3);transition:color .2s}
+.nav-links a:hover{color:var(--txt)}
+.nav-cta{
+  padding:.4rem 1rem;background:var(--blue);color:#fff;
+  border-radius:var(--r8);font-size:.78rem;font-weight:700;
+  transition:all .2s;letter-spacing:.02em;
+}
+.nav-cta:hover{background:var(--blue2);transform:translateY(-1px)}
+
+.hero{
+  position:relative;min-height:100vh;display:flex;flex-direction:column;
+  justify-content:center;padding:130px 5vw 80px;overflow:hidden;z-index:1;
+}
+.glow-1,.glow-2{
+  position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;
+}
+.glow-1{width:500px;height:500px;background:rgba(59,130,246,.15);top:-10%;right:-5%;animation:float 8s ease-in-out infinite}
+.glow-2{width:400px;height:400px;background:rgba(34,197,94,.08);bottom:5%;left:-5%;animation:float 10s ease-in-out infinite reverse}
+@keyframes float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-20px) scale(1.04)}}
+
+.hero-inner{position:relative;z-index:2}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:.5rem;
+  border:1px solid var(--border2);background:var(--bg3);
+  border-radius:100px;padding:.35rem .9rem;
+  font-size:.72rem;font-weight:600;color:var(--txt2);margin-bottom:2rem;
+  letter-spacing:.04em;
+}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero h1{
+  font-family:var(--serif);font-size:clamp(3rem,7vw,5.5rem);
+  line-height:1.04;letter-spacing:-.04em;margin-bottom:1.5rem;max-width:900px;
+}
+.hero h1 .hl{
+  background:linear-gradient(90deg,#3B82F6,#22C55E);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{font-size:1.05rem;color:var(--txt2);line-height:1.75;max-width:540px;margin-bottom:2.5rem;font-weight:400}
+.hero-ctas{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3.5rem}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:.4rem;
+  padding:.7rem 1.5rem;background:var(--blue);color:#fff;
+  border-radius:var(--r8);font-size:.9rem;font-weight:700;
+  transition:all .25s;border:1px solid transparent;
+}
+.btn-primary:hover{background:var(--blue2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(59,130,246,.3)}
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:.4rem;
+  padding:.7rem 1.5rem;background:var(--bg3);color:var(--txt2);
+  border-radius:var(--r8);font-size:.9rem;font-weight:500;
+  border:1px solid var(--border2);transition:all .25s;
+}
+.btn-secondary:hover{color:var(--txt);border-color:var(--blue);background:var(--blue-bg)}
+
+.trust-bar{
+  display:flex;align-items:center;gap:2.5rem;flex-wrap:wrap;
+  border-top:1px solid var(--border);padding-top:2rem;
+}
+.trust-item{display:flex;flex-direction:column;gap:.2rem}
+.trust-val{font-size:1.6rem;font-family:var(--serif);color:var(--txt)}
+.trust-lab{font-size:.72rem;color:var(--txt3);font-weight:400;letter-spacing:.02em}
+.trust-div{width:1px;height:32px;background:var(--border);align-self:center}
+
+.ribbon{
+  background:linear-gradient(90deg,rgba(34,197,94,.1),rgba(59,130,246,.1));
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:1rem 5vw;display:flex;gap:2rem;flex-wrap:wrap;align-items:center;
+  justify-content:center;position:relative;z-index:1;
+}
+.rib-item{display:flex;align-items:center;gap:.5rem;font-size:.82rem;font-weight:500;color:var(--txt2)}
+.rib-icon{font-size:1rem}
+
+section{padding:80px 5vw;position:relative;z-index:1}
+.sec-eyebrow{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.7rem;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--blue);margin-bottom:.8rem;
+}
+.sec-title{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.8rem);letter-spacing:-.03em;line-height:1.1;margin-bottom:.8rem}
+.sec-sub{font-size:.9rem;color:var(--txt2);line-height:1.75;max-width:560px;margin-bottom:2.5rem;font-weight:300}
+
+#services{background:var(--bg)}
+.srv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r16);overflow:hidden}
+.srv-card{
+  background:var(--bg);padding:2rem;transition:background .2s;position:relative;overflow:hidden;
+}
+.srv-card:hover{background:var(--bg3)}
+.srv-top-bar{height:3px;position:absolute;top:0;left:0;right:0;border-radius:3px 3px 0 0}
+.top-blue{background:linear-gradient(90deg,var(--blue),#6366F1)}
+.top-green{background:linear-gradient(90deg,var(--green),#14B8A6)}
+.top-amber{background:linear-gradient(90deg,var(--amber),#F97316)}
+.srv-badge-pill{
+  display:inline-flex;align-items:center;gap:.3rem;
+  padding:.25rem .65rem;border-radius:100px;
+  font-size:.68rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  margin-bottom:1.2rem;
+}
+.pill-blue{background:var(--blue-bg);color:var(--blue);border:1px solid rgba(59,130,246,.25)}
+.pill-green{background:var(--green-bg);color:var(--green);border:1px solid rgba(34,197,94,.2)}
+.pill-amber{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(245,158,11,.2)}
+.srv-name{font-family:var(--serif);font-size:1.3rem;margin-bottom:.4rem;letter-spacing:-.02em}
+.srv-desc{font-size:.82rem;color:var(--txt2);line-height:1.65;margin-bottom:1.5rem}
+.price-row{display:flex;align-items:baseline;gap:.4rem;margin-bottom:.15rem}
+.price-main{font-family:var(--serif);font-size:2rem;color:var(--txt)}
+.price-suf{font-size:.78rem;color:var(--txt3)}
+.price-market{font-size:.72rem;color:var(--txt3);margin-bottom:1.2rem}
+.price-market span{text-decoration:line-through;color:var(--red)}
+.inc-list{list-style:none;display:flex;flex-direction:column;gap:.35rem;margin-bottom:1.5rem}
+.inc-list li{font-size:.8rem;color:var(--txt2);display:flex;gap:.45rem;line-height:1.5}
+.inc-list li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;font-size:.75rem;margin-top:.05rem}
+.srv-cta{
+  width:100%;padding:.55rem;background:var(--bg4);color:var(--txt2);
+  border:1px solid var(--border2);border-radius:var(--r8);font-size:.8rem;
+  font-weight:600;cursor:pointer;transition:all .2s;text-align:center;display:block;
+}
+.srv-cta:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+
+#process{background:var(--bg2)}
+.process-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;margin-top:1rem}
+.step{
+  background:var(--bg3);border:1px solid var(--border);border-radius:var(--r16);
+  padding:1.6rem;transition:border-color .2s;
+}
+.step:hover{border-color:var(--blue)}
+.step-num{
+  width:36px;height:36px;border-radius:var(--r8);background:var(--blue-bg);
+  border:1px solid rgba(59,130,246,.25);display:flex;align-items:center;justify-content:center;
+  font-size:.8rem;font-weight:800;color:var(--blue);margin-bottom:1rem;
+}
+.step-title{font-weight:700;font-size:.9rem;margin-bottom:.4rem}
+.step-desc{font-size:.8rem;color:var(--txt2);line-height:1.6}
+.step-highlight{
+  display:inline-block;margin-top:.6rem;font-size:.72rem;font-weight:600;
+  color:var(--green);background:var(--green-bg);padding:.2rem .6rem;border-radius:100px;
+}
+
+#pricing{background:var(--bg)}
+.tbl-wrap{border:1px solid var(--border);border-radius:var(--r16);overflow:hidden;overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:520px}
+thead{background:var(--bg3)}
+th{padding:14px 20px;font-size:.75rem;font-weight:700;letter-spacing:.05em;color:var(--txt2);text-align:left;border-bottom:1px solid var(--border)}
+th.my-col{color:var(--blue);text-align:center}
+td{padding:13px 20px;font-size:.82rem;color:var(--txt2);border-bottom:1px solid var(--border)}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:var(--bg3)}
+td:first-child{color:var(--txt);font-weight:500}
+.td-me{color:var(--green)!important;font-weight:700!important;text-align:center}
+td:not(:first-child):not(.td-me){text-align:center}
+.tbl-note{font-size:.75rem;color:var(--txt3);margin-top:.8rem;text-align:center}
+
+#projects{background:var(--bg2)}
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.proj-card{
+  background:var(--bg3);border:1px solid var(--border);border-radius:var(--r16);
+  padding:1.8rem;transition:all .25s;position:relative;overflow:hidden;
+}
+.proj-card::before{
+  content:'';position:absolute;inset:0;border-radius:var(--r16);
+  background:radial-gradient(circle at top right,rgba(59,130,246,.06),transparent 60%);
+  pointer-events:none;
+}
+.proj-card:hover{border-color:var(--blue);transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.4)}
+.proj-card.featured{border-color:rgba(34,197,94,.35)}
+.proj-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1rem}
+.proj-icon{
+  width:44px;height:44px;border-radius:var(--r12);background:var(--bg4);
+  display:flex;align-items:center;justify-content:center;font-size:1.2rem;
+  border:1px solid var(--border2);
+}
+.proj-live{
+  display:inline-flex;align-items:center;gap:.3rem;
+  padding:.3rem .7rem;border-radius:100px;
+  font-size:.7rem;font-weight:600;
+  background:var(--green-bg);color:var(--green);
+  border:1px solid rgba(34,197,94,.2);
+}
+.proj-live-dot{width:5px;height:5px;border-radius:50%;background:var(--green)}
+.proj-gh{
+  display:inline-flex;align-items:center;gap:.3rem;
+  padding:.3rem .7rem;border-radius:100px;
+  font-size:.7rem;font-weight:600;
+  background:var(--blue-bg);color:var(--blue);
+  border:1px solid rgba(59,130,246,.2);
+}
+.proj-client-badge{
+  display:inline-flex;align-items:center;gap:.3rem;
+  padding:.25rem .65rem;border-radius:100px;
+  font-size:.68rem;font-weight:700;letter-spacing:.04em;
+  background:rgba(245,158,11,.12);color:var(--amber);
+  border:1px solid rgba(245,158,11,.25);margin-bottom:.6rem;
+}
+.proj-name{font-family:var(--serif);font-size:1.2rem;margin-bottom:.3rem;letter-spacing:-.01em}
+.proj-stack{font-size:.73rem;color:var(--txt3);font-weight:500;margin-bottom:.7rem;letter-spacing:.02em;text-transform:uppercase}
+.proj-desc{font-size:.82rem;color:var(--txt2);line-height:1.65;margin-bottom:1rem}
+.proj-stat{
+  border-top:1px solid var(--border);padding-top:.8rem;
+  font-size:.78rem;font-weight:700;color:var(--txt);
+  display:flex;align-items:center;gap:.4rem;
+}
+.proj-stat::before{content:'↗';color:var(--green);font-size:.85rem}
+
+#stack{background:var(--bg)}
+.stack-cats{display:flex;flex-direction:column;gap:1.5rem}
+.stack-cat-label{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--txt3);margin-bottom:.6rem}
+.pills{display:flex;flex-wrap:wrap;gap:.5rem}
+.pill{
+  padding:.4rem .9rem;border:1px solid var(--border2);background:var(--bg3);
+  border-radius:100px;font-size:.78rem;font-weight:500;color:var(--txt2);
+  transition:all .2s;cursor:default;
+}
+.pill:hover{border-color:var(--blue);color:var(--txt);background:var(--blue-bg)}
+.pill.hot{border-color:rgba(59,130,246,.4);color:var(--blue);background:var(--blue-bg)}
+
+#contact{
+  background:var(--bg);position:relative;overflow:hidden;text-align:center;
+}
+.contact-glow{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:600px;height:300px;background:radial-gradient(ellipse,rgba(59,130,246,.12),transparent 70%);
+  pointer-events:none;
+}
+.contact-inner{position:relative;z-index:2}
+.guarantee-grid{
+  display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin:2rem 0;
+}
+.guar-card{
+  background:var(--bg3);border:1px solid var(--border);border-radius:var(--r12);
+  padding:1rem 1.5rem;display:flex;align-items:center;gap:.7rem;
+  font-size:.82rem;font-weight:500;color:var(--txt2);
+}
+.guar-icon{font-size:1.1rem}
+.cta-btns{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;margin-top:2.5rem}
+.socials{
+  display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-top:2rem;
+}
+.soc-link{font-size:.8rem;color:var(--txt3);transition:color .2s}
+.soc-link:hover{color:var(--blue)}
+
+footer{
+  background:var(--bg2);border-top:1px solid var(--border);
+  padding:1.2rem 5vw;display:flex;justify-content:space-between;
+  align-items:center;flex-wrap:wrap;gap:.5rem;
+}
+footer span{font-size:.75rem;color:var(--txt3)}
+
+.fade{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.fade.in{opacity:1;transform:none}
+
+@media(max-width:680px){
+  nav .nav-links{display:none}
+  .trust-div{display:none}
+  .glow-1,.glow-2{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="lang-bar">
+  <div class="lang-btn">
+    <span class="lang-opt active" id="btn-en" onclick="setLang('en')">EN</span>
+    <span class="lang-opt" id="btn-es" onclick="setLang('es')">ES</span>
+  </div>
+</div>
+
+<nav>
+  <a class="nav-logo" href="#">Sergio Carpio</a>
+  <ul class="nav-links">
+    <li><a href="#services" data-i="nav_services">Services</a></li>
+    <li><a href="#process" data-i="nav_process">Process</a></li>
+    <li><a href="#pricing" data-i="nav_pricing">Pricing</a></li>
+    <li><a href="#projects" data-i="nav_projects">Projects</a></li>
+  </ul>
+  <a class="nav-cta" href="#contact" data-i="nav_cta">Get a quote</a>
+</nav>
+
+<section class="hero">
+  <div class="glow-1"></div>
+  <div class="glow-2"></div>
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      <span data-i="hero_badge">Available for new projects</span>
+    </div>
+    <h1 data-i="hero_title">Professional websites<br>at <span class="hl">honest prices.</span></h1>
+    <p class="hero-sub" data-i="hero_sub">
+      Custom-coded websites for local businesses, freelancers and startups.
+      Modern design, clean code — and prices that won't break the bank.
+    </p>
+    <div class="hero-ctas">
+      <a class="btn-primary" href="#contact" data-i="hero_cta1">✉ Get a free quote</a>
+      <a class="btn-secondary" href="https://github.com/Carpiox" target="_blank" data-i="hero_cta2">⎇ View GitHub</a>
+    </div>
+    <div class="trust-bar">
+      <div class="trust-item">
+        <span class="trust-val">50k+</span>
+        <span class="trust-lab" data-i="stat1">calculations on micalculadora.es</span>
+      </div>
+      <div class="trust-div"></div>
+      <div class="trust-item">
+        <span class="trust-val">6+</span>
+        <span class="trust-lab" data-i="stat2">live projects in production</span>
+      </div>
+      <div class="trust-div"></div>
+      <div class="trust-item">
+        <span class="trust-val">DAW</span>
+        <span class="trust-lab" data-i="stat3">certified web dev degree</span>
+      </div>
+      <div class="trust-div"></div>
+      <div class="trust-item">
+        <span class="trust-val">100%</span>
+        <span class="trust-lab" data-i="stat4">preview before any payment</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ribbon">
+  <div class="rib-item"><span class="rib-icon">🎬</span> <span data-i="rib1">Photos & video preview before you pay</span></div>
+  <div class="rib-item"><span class="rib-icon">💰</span> <span data-i="rib2">Up to 70% less than agencies</span></div>
+  <div class="rib-item"><span class="rib-icon">🔄</span> <span data-i="rib3">Free revisions included</span></div>
+  <div class="rib-item"><span class="rib-icon">⚡</span> <span data-i="rib4">Fast delivery — days, not months</span></div>
+  <div class="rib-item"><span class="rib-icon">🤝</span> <span data-i="rib5">No hidden fees, ever</span></div>
+</div>
+
+<section id="services">
+  <div class="sec-eyebrow" data-i="srv_eyebrow">What I build</div>
+  <h2 class="sec-title" data-i="srv_title">Services & pricing</h2>
+  <p class="sec-sub" data-i="srv_sub">Every project is hand-coded. No page builders, no bloated themes — just clean, fast code tailored to your needs.</p>
+
+  <div class="srv-grid">
+    <div class="srv-card fade">
+      <div class="srv-top-bar top-blue"></div>
+      <span class="srv-badge-pill pill-blue">⭐ <span data-i="pill1">Most popular</span></span>
+      <div class="srv-name" data-i="srv1_name">Landing Page</div>
+      <div class="srv-desc" data-i="srv1_desc">Perfect for hair salons, restaurants, clinics and local businesses. One polished page that converts visitors into customers.</div>
+      <div class="price-row"><span class="price-main">€100–€200</span><span class="price-suf" data-i="one_time">one-time</span></div>
+      <div class="price-market" data-i="srv1_mkt">Market rate: <span>€350–€700</span></div>
+      <ul class="inc-list">
+        <li data-i="srv1_f1">100% custom design (no templates)</li>
+        <li data-i="srv1_f2">Mobile-first, fully responsive</li>
+        <li data-i="srv1_f3">Working contact form</li>
+        <li data-i="srv1_f4">Basic SEO + Google Maps</li>
+        <li data-i="srv1_f5">Delivered in 5–7 business days</li>
+        <li data-i="srv1_f6"><strong>Preview via photos & video before paying</strong></li>
+      </ul>
+      <a class="srv-cta" href="#contact" data-i="srv_btn">Request this →</a>
+    </div>
+
+    <div class="srv-card fade">
+      <div class="srv-top-bar top-green"></div>
+      <span class="srv-badge-pill pill-green">🚀 <span data-i="pill2">Full website</span></span>
+      <div class="srv-name" data-i="srv2_name">Multi-page Website</div>
+      <div class="srv-desc" data-i="srv2_desc">For businesses with multiple services, a portfolio or a blog. Clean architecture and on-page SEO across every section.</div>
+      <div class="price-row"><span class="price-main">€250–€500</span><span class="price-suf" data-i="one_time">one-time</span></div>
+      <div class="price-market" data-i="srv2_mkt">Market rate: <span>€700–€1,800</span></div>
+      <ul class="inc-list">
+        <li data-i="srv2_f1">Up to 5 fully designed pages</li>
+        <li data-i="srv2_f2">Consistent UI across all sections</li>
+        <li data-i="srv2_f3">Animations & smooth UX</li>
+        <li data-i="srv2_f4">On-page SEO on every page</li>
+        <li data-i="srv2_f5">Delivered in 10–15 business days</li>
+        <li data-i="srv2_f6"><strong>Preview via photos & video before paying</strong></li>
+      </ul>
+      <a class="srv-cta" href="#contact" data-i="srv_btn">Request this →</a>
+    </div>
+
+    <div class="srv-card fade">
+      <div class="srv-top-bar top-amber"></div>
+      <span class="srv-badge-pill pill-amber">⚙️ <span data-i="pill3">Full system</span></span>
+      <div class="srv-name" data-i="srv3_name">Web + Database</div>
+      <div class="srv-desc" data-i="srv3_desc">Admin panel, secure login, booking/reservation management. Ideal for salons, restaurants and SMEs that need a real back-end.</div>
+      <div class="price-row"><span class="price-main">€450–€850</span><span class="price-suf" data-i="one_time">one-time</span></div>
+      <div class="price-market" data-i="srv3_mkt">Market rate: <span>€1,400–€3,500</span></div>
+      <ul class="inc-list">
+        <li data-i="srv3_f1">Custom MySQL database</li>
+        <li data-i="srv3_f2">Admin panel with secure login</li>
+        <li data-i="srv3_f3">Booking/appointment management</li>
+        <li data-i="srv3_f4">Automated email notifications</li>
+        <li data-i="srv3_f5">Delivered in 15–25 business days</li>
+        <li data-i="srv3_f6"><strong>Preview via photos & video before paying</strong></li>
+      </ul>
+      <a class="srv-cta" href="#contact" data-i="srv_btn">Request this →</a>
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="sec-eyebrow" data-i="proc_eyebrow">How it works</div>
+  <h2 class="sec-title" data-i="proc_title">My process</h2>
+  <p class="sec-sub" data-i="proc_sub">Transparent from day one. You see the result before spending a single euro.</p>
+  <div class="process-steps">
+    <div class="step fade">
+      <div class="step-num">01</div>
+      <div class="step-title" data-i="step1_t">Free consultation</div>
+      <div class="step-desc" data-i="step1_d">We talk about your project, your goals and your budget. No strings attached.</div>
+    </div>
+    <div class="step fade">
+      <div class="step-num">02</div>
+      <div class="step-title" data-i="step2_t">I build it first</div>
+      <div class="step-desc" data-i="step2_d">I develop your website completely before asking for payment.</div>
+      <span class="step-highlight" data-i="step2_hl">Zero risk for you</span>
+    </div>
+    <div class="step fade">
+      <div class="step-num">03</div>
+      <div class="step-title" data-i="step3_t">Preview: photos & video</div>
+      <div class="step-desc" data-i="step3_d">You receive a full walkthrough — screenshots and a screen recording — so you can review every detail before committing.</div>
+      <span class="step-highlight" data-i="step3_hl">See it, then decide</span>
+    </div>
+    <div class="step fade">
+      <div class="step-num">04</div>
+      <div class="step-title" data-i="step4_t">Revisions & launch</div>
+      <div class="step-desc" data-i="step4_d">Happy with the preview? We refine anything you want, then go live. Only pay when you love it.</div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="sec-eyebrow" data-i="tbl_eyebrow">Full transparency</div>
+  <h2 class="sec-title" data-i="tbl_title">Price comparison</h2>
+  <p class="sec-sub" data-i="tbl_sub">Same quality as an agency — at a fraction of the cost. No surprises.</p>
+  <div class="tbl-wrap fade">
+    <table>
+      <thead>
+        <tr>
+          <th data-i="th_service">Service</th>
+          <th class="my-col" data-i="th_me">My price</th>
+          <th data-i="th_free">Freelancer market</th>
+          <th data-i="th_agency">Agency</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td data-i="row1_s">Landing page (1 page)</td><td class="td-me">€100–€200</td><td>€350–€700</td><td>€600–€1,500</td></tr>
+        <tr><td data-i="row2_s">Multi-page website (3–5 pages)</td><td class="td-me">€250–€500</td><td>€700–€1,800</td><td>€1,200–€5,000</td></tr>
+        <tr><td data-i="row3_s">Website + database / admin panel</td><td class="td-me">€450–€850</td><td>€1,400–€3,500</td><td>€3,000–€8,000</td></tr>
+        <tr><td data-i="row4_s">E-commerce store</td><td class="td-me">€600–€1,000</td><td>€1,800–€5,000</td><td>€4,000–€12,000</td></tr>
+        <tr><td data-i="row5_s">Monthly maintenance</td><td class="td-me">€25–€70/mo</td><td>€80–€200/mo</td><td>€150–€400/mo</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="tbl-note" data-i="tbl_note">* Market rates are estimates based on typical freelance platforms. Your project may vary — get a free quote with no commitment.</p>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="sec-eyebrow" data-i="proj_eyebrow">Real work</div>
+  <h2 class="sec-title" data-i="proj_title">Live projects</h2>
+  <p class="sec-sub" data-i="proj_sub">Not mockups. Real projects, running in production, serving real users.</p>
+
+  <div class="proj-grid">
+
+    <!-- NEW: Herbolario — real client project, most relatable for leads -->
+    <div class="proj-card featured fade">
+      <div class="proj-head">
+        <div class="proj-icon">🌿</div>
+        <a class="proj-live" href="https://herbolario-bosque-encantado-cieza.netlify.app/" target="_blank"><span class="proj-live-dot"></span> Live</a>
+      </div>
+      <div class="proj-client-badge" data-i="p5_badge">👤 Real client project</div>
+      <div class="proj-name" data-i="p5_name">El Bosque Encantado</div>
+      <div class="proj-stack">HTML · CSS · JavaScript · Local SEO</div>
+      <div class="proj-desc" data-i="p5_desc">Landing page for a real herbalist shop in Cieza. Local SEO, Google Maps, product catalogue and organic design — exactly what I build for local businesses.</div>
+      <div class="proj-stat" data-i="p5_stat">Real client · local business · Cieza, Murcia</div>
+    </div>
+
+    <!-- NEW: Bet Web — design showcase -->
+    <div class="proj-card fade">
+      <div class="proj-head">
+        <div class="proj-icon">🎰</div>
+        <a class="proj-live" href="https://bet-web.netlify.app/" target="_blank"><span class="proj-live-dot"></span> Live</a>
+      </div>
+      <div class="proj-name" data-i="p6_name">Bet Web — Design Showcase</div>
+      <div class="proj-stack">HTML · CSS · JavaScript · UI/UX</div>
+      <div class="proj-desc" data-i="p6_desc">Premium-design project built to demonstrate advanced UI and visual identity skills — dark theme, bold typography, polished layout and high-end aesthetics from scratch.</div>
+      <div class="proj-stat" data-i="p6_stat">Design showcase · advanced UI/UX</div>
+    </div>
+
+    <!-- micalculadora.es -->
+    <div class="proj-card fade">
+      <div class="proj-head">
+        <div class="proj-icon">🧮</div>
+        <a class="proj-live" href="https://micalculadora.es" target="_blank"><span class="proj-live-dot"></span> Live</a>
+      </div>
+      <div class="proj-name">micalculadora.es</div>
+      <div class="proj-stack">React · TypeScript · Tailwind · Vite · Custom SSR</div>
+      <div class="proj-desc" data-i="p1_desc">Labour-law calculator platform with a custom pre-rendering server. Advanced technical SEO and scalable architecture. Built from scratch — no framework shortcuts.</div>
+      <div class="proj-stat" data-i="p1_stat">50,000+ labour calculations processed</div>
+    </div>
+
+    <!-- Salon Booking -->
+    <div class="proj-card fade">
+      <div class="proj-head">
+        <div class="proj-icon">✂️</div>
+        <a class="proj-gh" href="https://github.com/Carpiox" target="_blank">⎇ GitHub</a>
+      </div>
+      <div class="proj-name" data-i="p2_name">Salon Booking System</div>
+      <div class="proj-stack">PHP · MySQL · JavaScript</div>
+      <div class="proj-desc" data-i="p2_desc">Online booking app with full admin panel, appointment confirmation, availability scheduling and secure authentication.</div>
+      <div class="proj-stat" data-i="p2_stat">Bookings + admin panel + auth</div>
+    </div>
+
+    <!-- Caregiver Platform -->
+    <div class="proj-card fade">
+      <div class="proj-head">
+        <div class="proj-icon">🏥</div>
+        <a class="proj-gh" href="https://github.com/Carpiox/TFG" target="_blank">⎇ GitHub</a>
+      </div>
+      <div class="proj-name" data-i="p3_name">Caregiver Platform</div>
+      <div class="proj-stack">PHP · MySQL · Angular</div>
+      <div class="proj-desc" data-i="p3_desc">Full patient & medication management system with a follow-up calendar. Final degree project (TFG) — complete, production-ready application.</div>
+      <div class="proj-stat" data-i="p3_stat">TFG DAW — full-stack system</div>
+    </div>
+
+    <!-- EVAU Calculator -->
+    <div class="proj-card fade">
+      <div class="proj-head">
+        <div class="proj-icon">🎓</div>
+        <a class="proj-live" href="https://calculadoraevau.netlify.app/" target="_blank"><span class="proj-live-dot"></span> Live</a>
+      </div>
+      <div class="proj-name" data-i="p4_name">University Score Calculator</div>
+      <div class="proj-stack">HTML · CSS · JavaScript</div>
+      <div class="proj-desc" data-i="p4_desc">Clean, fast EVAU admission score calculator by Spanish autonomous community. Accessible from any device, no dependencies.</div>
+      <div class="proj-stat" data-i="p4_stat">Live on Netlify · zero dependencies</div>
+    </div>
+
+  </div>
+</section>
+
+<section id="stack">
+  <div class="sec-eyebrow" data-i="stack_eyebrow">Technologies</div>
+  <h2 class="sec-title" data-i="stack_title">My tech stack</h2>
+  <p class="sec-sub" data-i="stack_sub">Battle-tested tools used in real, live projects.</p>
+  <div class="stack-cats fade">
+    <div>
+      <div class="stack-cat-label" data-i="cat1">Frontend</div>
+      <div class="pills">
+        <span class="pill hot">React</span><span class="pill hot">TypeScript</span><span class="pill hot">Tailwind CSS</span>
+        <span class="pill">Angular</span><span class="pill">HTML5</span><span class="pill">CSS3</span><span class="pill">JavaScript</span><span class="pill">Vite</span>
+      </div>
+    </div>
+    <div>
+      <div class="stack-cat-label" data-i="cat2">Backend & database</div>
+      <div class="pills">
+        <span class="pill hot">PHP</span><span class="pill hot">MySQL</span><span class="pill">Node.js</span>
+        <span class="pill">REST APIs</span><span class="pill">Apache</span><span class="pill">Nginx</span>
+      </div>
+    </div>
+    <div>
+      <div class="stack-cat-label" data-i="cat3">Tools & other</div>
+      <div class="pills">
+        <span class="pill hot">Git / GitHub</span><span class="pill">Technical SEO</span>
+        <span class="pill">Custom SSR</span><span class="pill">Netlify</span><span class="pill">AI & Automation</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-glow"></div>
+  <div class="contact-inner">
+    <div class="sec-eyebrow" style="justify-content:center" data-i="cta_eyebrow">Let's work together</div>
+    <h2 class="sec-title" data-i="cta_title">Ready to start your project?</h2>
+    <p class="sec-sub" style="margin:0 auto 0" data-i="cta_sub">Tell me about your idea. I'll reply within 24 hours with an honest quote — and remember, you'll see photos and a video of the finished site before you pay a single cent.</p>
+
+    <div class="guarantee-grid">
+      <div class="guar-card"><span class="guar-icon">🎬</span><span data-i="g1">Photos & video preview first</span></div>
+      <div class="guar-card"><span class="guar-icon">💸</span><span data-i="g2">Only pay when you're happy</span></div>
+      <div class="guar-card"><span class="guar-icon">🔄</span><span data-i="g3">Free revisions included</span></div>
+      <div class="guar-card"><span class="guar-icon">📞</span><span data-i="g4">Reply in under 24h</span></div>
+    </div>
+
+    <div class="cta-btns">
+      <a class="btn-primary" href="mailto:carpiomaster@gmail.com" data-i="cta_email">✉ carpiomaster@gmail.com</a>
+      <a class="btn-secondary" href="https://github.com/Carpiox" target="_blank" data-i="cta_gh">⎇ View GitHub</a>
+    </div>
+    <div class="socials">
+      <a class="soc-link" href="https://micalculadora.es" target="_blank">micalculadora.es ↗</a>
+      <a class="soc-link" href="https://github.com/Carpiox" target="_blank">github.com/Carpiox ↗</a>
+      <a class="soc-link" href="https://www.linkedin.com/in/sergio-carpio-863354368/" target="_blank">LinkedIn ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Sergio Carpio — Freelance Web Developer</span>
+  <span>github.com/Carpiox · micalculadora.es</span>
+</footer>
+
+<script>
+const T = {
+  en:{
+    nav_services:"Services",nav_process:"Process",nav_pricing:"Pricing",nav_projects:"Projects",nav_cta:"Get a quote",
+    hero_badge:"Available for new projects",
+    hero_title:`Professional websites<br>at <span class="hl">honest prices.</span>`,
+    hero_sub:"Custom-coded websites for local businesses, freelancers and startups. Modern design, clean code — and prices that won't break the bank.",
+    hero_cta1:"✉ Get a free quote",hero_cta2:"⎇ View GitHub",
+    stat1:"calculations on micalculadora.es",stat2:"live projects in production",stat3:"certified web dev degree",stat4:"preview before any payment",
+    rib1:"Photos & video preview before you pay",rib2:"Up to 70% less than agencies",rib3:"Free revisions included",rib4:"Fast delivery — days, not months",rib5:"No hidden fees, ever",
+    srv_eyebrow:"What I build",srv_title:"Services & pricing",srv_sub:"Every project is hand-coded. No page builders, no bloated themes — just clean, fast code tailored to your needs.",
+    pill1:"Most popular",pill2:"Full website",pill3:"Full system",
+    srv1_name:"Landing Page",srv1_desc:"Perfect for hair salons, restaurants, clinics and local businesses. One polished page that converts visitors into customers.",srv1_mkt:"Market rate: ",
+    srv1_f1:"100% custom design (no templates)",srv1_f2:"Mobile-first, fully responsive",srv1_f3:"Working contact form",srv1_f4:"Basic SEO + Google Maps",srv1_f5:"Delivered in 5–7 business days",srv1_f6:"<strong>Preview via photos & video before paying</strong>",
+    srv2_name:"Multi-page Website",srv2_desc:"For businesses with multiple services, a portfolio or a blog. Clean architecture and on-page SEO across every section.",srv2_mkt:"Market rate: ",
+    srv2_f1:"Up to 5 fully designed pages",srv2_f2:"Consistent UI across all sections",srv2_f3:"Animations & smooth UX",srv2_f4:"On-page SEO on every page",srv2_f5:"Delivered in 10–15 business days",srv2_f6:"<strong>Preview via photos & video before paying</strong>",
+    srv3_name:"Web + Database",srv3_desc:"Admin panel, secure login, booking/reservation management. Ideal for salons, restaurants and SMEs that need a real back-end.",srv3_mkt:"Market rate: ",
+    srv3_f1:"Custom MySQL database",srv3_f2:"Admin panel with secure login",srv3_f3:"Booking/appointment management",srv3_f4:"Automated email notifications",srv3_f5:"Delivered in 15–25 business days",srv3_f6:"<strong>Preview via photos & video before paying</strong>",
+    one_time:"one-time",srv_btn:"Request this →",
+    proc_eyebrow:"How it works",proc_title:"My process",proc_sub:"Transparent from day one. You see the result before spending a single euro.",
+    step1_t:"Free consultation",step1_d:"We talk about your project, your goals and your budget. No strings attached.",
+    step2_t:"I build it first",step2_d:"I develop your website completely before asking for payment.",step2_hl:"Zero risk for you",
+    step3_t:"Preview: photos & video",step3_d:"You receive a full walkthrough — screenshots and a screen recording — so you can review every detail before committing.",step3_hl:"See it, then decide",
+    step4_t:"Revisions & launch",step4_d:"Happy with the preview? We refine anything you want, then go live. Only pay when you love it.",
+    tbl_eyebrow:"Full transparency",tbl_title:"Price comparison",tbl_sub:"Same quality as an agency — at a fraction of the cost. No surprises.",
+    th_service:"Service",th_me:"My price",th_free:"Freelancer market",th_agency:"Agency",
+    row1_s:"Landing page (1 page)",row2_s:"Multi-page website (3–5 pages)",row3_s:"Website + database / admin panel",row4_s:"E-commerce store",row5_s:"Monthly maintenance",
+    tbl_note:"* Market rates are estimates based on typical freelance platforms. Your project may vary — get a free quote with no commitment.",
+    proj_eyebrow:"Real work",proj_title:"Live projects",proj_sub:"Not mockups. Real projects, running in production, serving real users.",
+    p5_badge:"👤 Real client project",
+    p5_name:"El Bosque Encantado",
+    p5_desc:"Landing page for a real herbalist shop in Cieza. Local SEO, Google Maps, product catalogue and organic design — exactly what I build for local businesses.",
+    p5_stat:"Real client · local business · Cieza, Murcia",
+    p6_name:"Bet Web — Design Showcase",
+    p6_desc:"Premium-design project built to demonstrate advanced UI and visual identity skills — dark theme, bold typography, polished layout and high-end aesthetics from scratch.",
+    p6_stat:"Design showcase · advanced UI/UX",
+    p1_desc:"Labour-law calculator platform with a custom pre-rendering server. Advanced technical SEO and scalable architecture. Built from scratch — no framework shortcuts.",
+    p1_stat:"50,000+ labour calculations processed",
+    p2_name:"Salon Booking System",p2_desc:"Online booking app with full admin panel, appointment confirmation, availability scheduling and secure authentication.",p2_stat:"Bookings + admin panel + auth",
+    p3_name:"Caregiver Platform",p3_desc:"Full patient & medication management system with a follow-up calendar. Final degree project (TFG) — complete, production-ready application.",p3_stat:"TFG DAW — full-stack system",
+    p4_name:"University Score Calculator",p4_desc:"Clean, fast EVAU admission score calculator by Spanish autonomous community. Accessible from any device, no dependencies.",p4_stat:"Live on Netlify · zero dependencies",
+    stack_eyebrow:"Technologies",stack_title:"My tech stack",stack_sub:"Battle-tested tools used in real, live projects.",
+    cat1:"Frontend",cat2:"Backend & database",cat3:"Tools & other",
+    cta_eyebrow:"Let's work together",cta_title:"Ready to start your project?",
+    cta_sub:"Tell me about your idea. I'll reply within 24 hours with an honest quote — and remember, you'll see photos and a video of the finished site before you pay a single cent.",
+    g1:"Photos & video preview first",g2:"Only pay when you're happy",g3:"Free revisions included",g4:"Reply in under 24h",
+    cta_email:"✉ carpiomaster@gmail.com",cta_gh:"⎇ View GitHub",
+  },
+  es:{
+    nav_services:"Servicios",nav_process:"Proceso",nav_pricing:"Precios",nav_projects:"Proyectos",nav_cta:"Pedir presupuesto",
+    hero_badge:"Disponible para nuevos proyectos",
+    hero_title:`Páginas web profesionales<br>a <span class="hl">precios justos.</span>`,
+    hero_sub:"Webs a medida para negocios locales, autónomos y startups. Diseño moderno, código limpio — y precios que no te arruinarán.",
+    hero_cta1:"✉ Presupuesto gratis",hero_cta2:"⎇ Ver GitHub",
+    stat1:"cálculos en micalculadora.es",stat2:"proyectos en producción",stat3:"Técnico Superior DAW",stat4:"preview antes de pagar",
+    rib1:"Fotos y vídeo de la web antes de pagar",rib2:"Hasta un 70% menos que una agencia",rib3:"Revisiones gratuitas incluidas",rib4:"Entrega rápida — días, no meses",rib5:"Sin costes ocultos, nunca",
+    srv_eyebrow:"Qué hago",srv_title:"Servicios y precios",srv_sub:"Cada proyecto está codificado a mano. Sin maquetadores, sin plantillas genéricas — solo código limpio y rápido adaptado a tus necesidades.",
+    pill1:"Más solicitado",pill2:"Web completa",pill3:"Sistema completo",
+    srv1_name:"Landing Page",srv1_desc:"Perfecta para peluquerías, restaurantes, clínicas y negocios locales. Una página cuidada que convierte visitas en clientes.",srv1_mkt:"Precio de mercado: ",
+    srv1_f1:"Diseño 100% personalizado (sin plantillas)",srv1_f2:"Adaptada a móvil, tablet y escritorio",srv1_f3:"Formulario de contacto funcional",srv1_f4:"SEO básico + Google Maps",srv1_f5:"Entrega en 5–7 días laborables",srv1_f6:"<strong>Preview con fotos y vídeo antes de pagar</strong>",
+    srv2_name:"Web multi-página",srv2_desc:"Para empresas con varios servicios, galería de trabajos o blog. Arquitectura clara y SEO en cada sección.",srv2_mkt:"Precio de mercado: ",
+    srv2_f1:"Hasta 5 páginas completamente diseñadas",srv2_f2:"UI coherente en todas las secciones",srv2_f3:"Animaciones y experiencia de usuario cuidada",srv2_f4:"SEO on-page en todas las páginas",srv2_f5:"Entrega en 10–15 días laborables",srv2_f6:"<strong>Preview con fotos y vídeo antes de pagar</strong>",
+    srv3_name:"Web + Base de datos",srv3_desc:"Panel de administración, login seguro, gestión de reservas. Ideal para peluquerías, restaurantes y pymes que necesitan un back-end real.",srv3_mkt:"Precio de mercado: ",
+    srv3_f1:"Base de datos MySQL a medida",srv3_f2:"Panel admin con login seguro",srv3_f3:"Gestión de reservas y citas",srv3_f4:"Notificaciones por email automáticas",srv3_f5:"Entrega en 15–25 días laborables",srv3_f6:"<strong>Preview con fotos y vídeo antes de pagar</strong>",
+    one_time:"pago único",srv_btn:"Solicitar este servicio →",
+    proc_eyebrow:"Cómo funciona",proc_title:"Mi proceso",proc_sub:"Transparente desde el primer día. Ves el resultado antes de gastar un solo euro.",
+    step1_t:"Consulta gratuita",step1_d:"Hablamos de tu proyecto, tus objetivos y tu presupuesto. Sin compromiso.",
+    step2_t:"Primero lo construyo",step2_d:"Desarrollo tu web completamente antes de pedirte ningún pago.",step2_hl:"Cero riesgo para ti",
+    step3_t:"Preview: fotos y vídeo",step3_d:"Recibes un recorrido completo — capturas y grabación de pantalla — para que revises cada detalle antes de decidir.",step3_hl:"Lo ves, luego decides",
+    step4_t:"Revisiones y lanzamiento",step4_d:"¿Contento con el preview? Ajustamos lo que quieras y publicamos. Solo pagas cuando te encanta.",
+    tbl_eyebrow:"Transparencia total",tbl_title:"Comparativa de precios",tbl_sub:"La misma calidad que una agencia — a una fracción del coste. Sin sorpresas.",
+    th_service:"Servicio",th_me:"Mi precio",th_free:"Freelance mercado",th_agency:"Agencia",
+    row1_s:"Landing page (1 página)",row2_s:"Web multi-página (3–5 págs.)",row3_s:"Web + BBDD / panel admin",row4_s:"Tienda online (e-commerce)",row5_s:"Mantenimiento mensual",
+    tbl_note:"* Los precios de mercado son estimaciones basadas en plataformas freelance habituales. Tu proyecto puede variar — pide presupuesto sin compromiso.",
+    proj_eyebrow:"Trabajo real",proj_title:"Proyectos en producción",proj_sub:"No son demos. Son proyectos reales, funcionando, con usuarios reales.",
+    p5_badge:"👤 Proyecto para cliente real",
+    p5_name:"El Bosque Encantado",
+    p5_desc:"Landing page para un herbolario real en Cieza. SEO local, Google Maps, catálogo de productos y diseño orgánico — exactamente lo que hago para negocios locales.",
+    p5_stat:"Cliente real · negocio local · Cieza, Murcia",
+    p6_name:"Bet Web — Showcase de Diseño",
+    p6_desc:"Proyecto de diseño premium para demostrar habilidades avanzadas de UI e identidad visual — tema oscuro, tipografía potente, layout cuidado y estética de alto nivel.",
+    p6_stat:"Showcase de diseño · UI/UX avanzado",
+    p1_desc:"Plataforma de calculadoras laborales con servidor de pre-renderizado propio. SEO técnico avanzado y arquitectura escalable. Construida desde cero.",
+    p1_stat:"Más de 50.000 cálculos laborales procesados",
+    p2_name:"Sistema para peluquerías",p2_desc:"App de reservas online con panel de administración completo, confirmación de citas, gestión de disponibilidad y autenticación segura.",p2_stat:"Reservas + panel admin + login",
+    p3_name:"Plataforma de cuidadores",p3_desc:"Sistema completo de gestión de pacientes y medicación con calendario de seguimiento. TFG — aplicación completa y lista para producción.",p3_stat:"TFG DAW — sistema full-stack",
+    p4_name:"Calculadora EVAU",p4_desc:"Calculadora de nota de acceso a la universidad por comunidad autónoma. Diseño limpio, rápida y accesible desde cualquier dispositivo.",p4_stat:"En producción en Netlify · sin dependencias",
+    stack_eyebrow:"Tecnologías",stack_title:"Mi stack",stack_sub:"Herramientas probadas en proyectos reales en producción.",
+    cat1:"Frontend",cat2:"Backend y base de datos",cat3:"Herramientas y más",
+    cta_eyebrow:"Trabajemos juntos",cta_title:"¿Listo para empezar tu proyecto?",
+    cta_sub:"Cuéntame tu idea. Respondo en menos de 24 horas con un presupuesto honesto — y recuerda: verás fotos y vídeo de la web terminada antes de pagar un solo céntimo.",
+    g1:"Preview con fotos y vídeo primero",g2:"Solo pagas cuando estás contento",g3:"Revisiones gratuitas incluidas",g4:"Respuesta en menos de 24h",
+    cta_email:"✉ carpiomaster@gmail.com",cta_gh:"⎇ Ver GitHub",
+  }
+};
+
+let lang = 'en';
+function setLang(l){
+  lang = l;
+  document.getElementById('btn-en').classList.toggle('active', l==='en');
+  document.getElementById('btn-es').classList.toggle('active', l==='es');
+  document.querySelectorAll('[data-i]').forEach(el=>{
+    const key = el.getAttribute('data-i');
+    if(T[l][key] !== undefined) el.innerHTML = T[l][key];
+  });
+  document.documentElement.lang = l;
+}
+
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{ if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('in'), i*80); obs.unobserve(e.target); }})
+},{threshold:0.08});
+document.querySelectorAll('.fade').forEach(el=>obs.observe(el));
+
+setLang('en');
+</script>
+</body>
+</html>
